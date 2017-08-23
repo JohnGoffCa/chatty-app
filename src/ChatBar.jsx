@@ -19,10 +19,10 @@ class ChatBar extends Component {
 
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      this.props.callback({
+      this.props.socket.send(JSON.stringify({
         user: this.state.username,
         content: this.state.value,
-      });
+      }));
     }
   }
 
