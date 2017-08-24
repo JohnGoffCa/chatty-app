@@ -73,6 +73,11 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+
+  #user-num {
+    line-height: 60px;
+    float: right;
+  }
 }
 
 .navbar-brand {
