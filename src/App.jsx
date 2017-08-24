@@ -15,34 +15,33 @@ class App extends Component {
   componentDidMount() {
     const websoc = new WebSocket('ws://localhost:3001');
     websoc.onopen = () => {
-      websoc.onmessage = this.recieveData;
+      // uses an anonymous inline function to preserve the context of this without needing to bind
+      websoc.onmessage = (...args) => this.recieveData(...args);
       this.socket = websoc;
     };
   }
 
-  recieveData = (data) => {
+  recieveData(data) {
     const newMessage = JSON.parse(data.data);
     if (newMessage.type === 'incomingNewUser') {
       this.setState({ numUsers: newMessage.userNum });
     } else {
       const messages = this.state.messages.concat(newMessage);
-      this.setState({
-        messages,
-      });
+      this.setState({ messages });
     }
   }
 
-  updateUser = (username) => {
+  updateUser(username) {
     if (username !== this.state.currUser) {
       this.socket.send(JSON.stringify({
         type: 'postNotification',
-        content: `**${this.state.currUser || 'Anonymous'}* changed their name to *${username}**`,
+        content: `* *${this.state.currUser || 'Anonymous'}* changed their name to *${username}* *`,
       }));
       this.setState({ currUser: username });
     }
   }
 
-  sendMessage = (message) => {
+  sendMessage(message) {
     this.socket.send(JSON.stringify({
       type: 'postMessage',
       username: message.username,
@@ -55,7 +54,7 @@ class App extends Component {
       <div>
         <Navbar userNum={this.state.numUsers} />
         <MessageList messages={this.state.messages} />
-        <ChatBar username={this.state.currUser} userCallback={this.updateUser} updateMessages={this.sendMessage} />
+        <ChatBar username={this.state.currUser} userCallback={(...args) => this.updateUser(...args)} updateMessages={(...args) => this.sendMessage(...args)} />
       </div>
     );
   }

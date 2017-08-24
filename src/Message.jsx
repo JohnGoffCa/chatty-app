@@ -11,7 +11,7 @@ class Message extends Component {
       );
     } else if (this.props.message.type === 'incomingNotification') {
       return (
-        <div className="message system">
+        <div className="message system" style={{color: `#${this.props.message.color}`}}>
           {this.props.message.content}
         </div>
       );
