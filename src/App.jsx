@@ -23,10 +23,8 @@ class App extends Component {
   recieveData = (data) => {
     const newMessage = JSON.parse(data.data);
     if (newMessage.type === 'incomingNewUser') {
-      console.log('In if')
       this.setState({ numUsers: newMessage.userNum });
     } else {
-      console.log('In else')
       const messages = this.state.messages.concat(newMessage);
       this.setState({
         messages,
