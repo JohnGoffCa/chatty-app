@@ -57,6 +57,11 @@ body {
 
 .message-content {
   flex: 8;
+  img {
+    display: inline-block;
+    margin: 0 auto;
+    justify-content: center;
+  }
 }
 
 .message-username {
