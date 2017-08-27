@@ -4,16 +4,15 @@ class ChatBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //username: this.props.username || '',
       value: '',
     };
   }
 
-  handleMessChange = (e) => {
+  handleMessChange(e) {
     this.setState({ value: e.target.value });
   }
 
-  handleKeyPress = (e) => {
+  handleKeyPress(e) {
     if (e.key === 'Enter') {
       if (e.target.className === 'chatbar-message') {
         this.props.updateMessages({
@@ -28,10 +27,11 @@ class ChatBar extends Component {
   }
 
   render() {
+    //uses inline functions to change the context of this
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" placeholder='Your Name (Optional)' onKeyPress={this.handleKeyPress} />
-        <input className="chatbar-message" placeholder="Type a message and hit ENTER" value={this.state.value} onChange={this.handleMessChange} onKeyPress={this.handleKeyPress} />
+        <input className="chatbar-username" placeholder='Your Name (Optional)' onKeyPress={(...arg) => this.handleKeyPress(...arg)} />
+        <input className="chatbar-message" placeholder="Type a message and hit ENTER" value={this.state.value} onChange={(...arg) => this.handleMessChange(...arg)} onKeyPress={(...arg) => this.handleKeyPress(...arg)} />
       </footer>
     );
   }
